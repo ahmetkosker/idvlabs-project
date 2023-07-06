@@ -1,11 +1,12 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getProducts, selectProducts } from "../store/productSlice";
 import { AppDispatch } from "../store";
 import { Link } from "react-router-dom";
+import { Rating } from "@mui/material";
 
-const UserList: React.FC = () => {
+const ProductLists: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
   const products = useSelector(selectProducts);
 
@@ -24,17 +25,26 @@ const UserList: React.FC = () => {
                 <div className="w-full h-44 sm:h-96 flex flex-col justify-center">
                   <Link to={`/products/${product.id}`}>
                     <img
-                      className="p-8 w-36 sm:w-60 mx-auto rounded-t-lg"
+                      className="p-5 w-32 sm:w-52 mx-auto rounded-t-lg"
                       src={product.image}
                       alt="product image"
                     />
                   </Link>
                 </div>
-                <div className="px-3 sm:px-5 pb-5 h-32 sm:h-44 flex flex-col justify-between">
+                <div className="px-3 sm:px-5 pb-5 h-40 sm:h-48 flex flex-col justify-between">
                   <div>
                     <h5 className="text-[11px] sm:text-xl font-semibold tracking-tight text-gray-900 ">
                       {product.title}
                     </h5>
+                  </div>
+                  <div className="h-full flex items-end pb-3">
+                    <Rating
+                      name="half-rating-read"
+                      defaultValue={product?.rating?.rate || 0}
+                      precision={0.1}
+                      readOnly
+                    />
+                    <span className="sm:ml-2">({product.rating.count})</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-sm sm:text-3xl font-bold text-gray-900 ">
@@ -54,4 +64,4 @@ const UserList: React.FC = () => {
   );
 };
 
-export default UserList;
+export default ProductLists;
